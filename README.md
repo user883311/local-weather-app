@@ -7,6 +7,6 @@ User Story:
 mountain, hot desert) depending on the weather.
 - I can push a button to toggle between Fahrenheit and Celsius.
 
-Notes: I used AJAX, jQuery and BootStrap. 
+Notes: I used AJAX, jQuery and BootStrap and FontAwesome. 
 
 Live page at https://user883311.github.io/local-weather-app/. 

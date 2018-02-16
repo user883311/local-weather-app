@@ -4,65 +4,9 @@
 
 <head>
     <meta charset="utf-8" />
-    <!-- CONNECTING WITH QUOTES API -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script>
-        var lon, lat;
-        $(document).ready(function () {
-            navigator.geolocation.getCurrentPosition(function (location) {
-                lon = location.coords.longitude;
-                lat = location.coords.latitude;
-                getWeather(lon, lat);
-            });
-
-        })
-        function getWeather(lon, lat) {
-            var weatherAPI = "https://fcc-weather-api.glitch.me/";
-            weatherAPI += "/api/current?lon=" + lon;
-            weatherAPI += "&lat=" + lat;
-            var JSONcity, JSONcountryCode, JSONicon;
-            var JSONdata, JSONweatherDescription, JSONtemperature, JSONhumidity, JSONwindspeed;
-            $.ajax({
-                type: "GET",
-                url: weatherAPI,
-                success: function (data) {
-                    //console.log(data);
-                    JSONdata = data;
-                    document.getElementById("location-box").innerHTML = data.name + ", " + data.sys.country;
-                    JSONicon = data.weather[0].icon;
-                    //window.open(weatherAPI);
-                    document.getElementById("icon-box").innerHTML = "<img src='" + JSONicon + "' alt='[an API weather image]'>";
-                    document.getElementById("weather-description-box").innerHTML = data.weather[0].description;
-                    document.getElementById("temperature-box").innerHTML = Math.round(data.main.temp);
-                    document.getElementById("humidity-box").innerHTML = data.main.humidity + " % humidity";
-                    document.getElementById("wind-speed-box").innerHTML = "Wind speed: " + data.wind.speed + " km/h";
-                }
-            });
-        };
-        $(document).ready(function () {
-            $("#fahrenheit").click(function () {
-                document.getElementById("temperature-box").innerHTML = Math.round(document.getElementById("temperature-box").innerHTML * 9 / 5 + 32);
-            });
-        });
-        $(document).ready(function () {
-            $("#celsius").click(function () {
-                document.getElementById("temperature-box").innerHTML = Math.round((document.getElementById("temperature-box").innerHTML - 32) * 5 / 9);
-            });
-        });
-
-    </script>
-
-    <!-- STYLING -->
-    <title>Show the Local Weather 2</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>Local Weather</title>
     <script src="https://use.fontawesome.com/397c5af911.js"></script>
-    <style>
-        body {
-            padding: 10px;
-        }
-        .jumbotron {
-            margin-top: 10px;
-        }
-    </style>
 </head>
 
 <body class="text-center">
@@ -83,13 +27,15 @@
                 <label class="btn btn-secondary">
                     <input type="radio" name="options" id="fahrenheit" autocomplete="off">°F
                 </label>
-
             </div>
         </div>
         <div id="humidity-box"></div>
         <div id="wind-speed-box"></div>
     </div>
-    Designed with jQuery, AJAX. 
+    Designed with jQuery, AJAX.
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
 </body>
 
 </html>

@@ -8,28 +8,20 @@
 //     });
 // })
 
-var options = {
-    enableHighAccuracy: true,
-    timeout: 5000,
-    maximumAge: 0
-};
-
-function success(pos) {
-    var crd = pos.coords;
-
-    console.log('Your current position is:');
-    console.log(`Latitude : ${crd.latitude}`);
-    console.log(`Longitude: ${crd.longitude}`);
-    console.log(`More or less ${crd.accuracy} meters.`);
-    document.getElementById("test").textContent="success";
+//Check if browser supports W3C Geolocation API
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(successFunction, errorFunction);
+}
+//Get latitude and longitude;
+function successFunction(position) {
+    var lat = position.coords.latitude;
+    var long = position.coords.longitude;
+    console.log(lat, long);
 }
 
-function error(err) {
-    console.warn(`ERROR(${err.code}): ${err.message}`);
-    document.getElementById("test").textContent="error";
+function errorFunction(error) {
+    console.log(error);
 }
-
-navigator.geolocation.getCurrentPosition(success, error, options);
 
 
 

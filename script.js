@@ -21,10 +21,12 @@ function success(pos) {
     console.log(`Latitude : ${crd.latitude}`);
     console.log(`Longitude: ${crd.longitude}`);
     console.log(`More or less ${crd.accuracy} meters.`);
+    document.getElementById("test").textContent="success";
 }
 
 function error(err) {
     console.warn(`ERROR(${err.code}): ${err.message}`);
+    document.getElementById("test").textContent="error";
 }
 
 navigator.geolocation.getCurrentPosition(success, error, options);

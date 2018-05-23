@@ -28,7 +28,7 @@ function getWeather(lon, lat) {
     // https://openweathermap.org/current
     let quoteAPI = new XMLHttpRequest();
     let APIKEY = "f13e33dc5e96b1a4c9fc0948f9095d1a"
-    quoteAPI.open("GET", `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${APIKEY}`);
+    quoteAPI.open("GET", `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${APIKEY}`);
     quoteAPI.setRequestHeader(
         "Accept","application/json",
         "Content-Type","application/x-www-form-urlencoded"

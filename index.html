@@ -6,34 +6,40 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="styles.css">
     <title>Local Weather</title>
-    <!-- <script src="https://use.fontawesome.com/397c5af911.js"></script> -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <script src="https://use.fontawesome.com/397c5af911.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+        crossorigin="anonymous">
 </head>
 
 <body class="text-center">
     <div class="container jumbotron">
-        <h1>my Weather</h1>
-        <h4 id="test">a freecodecamp project</h4>
-        <div id="location-box"></div>
-        <div>
-            <span id="icon-box"></span>
+        <h1>Hello.</h1>
+        <div>You are in beautiful
+            <span id="location-box"></span>.
+        </div>
+
+        <div>The weather is
+            <img id="icon-box"></img>.
             <span id="weather-description-box"></span>
         </div>
         <div class="">
             <div class="btn-group-sm" data-toggles="buttons">
-                <span id="temperature-box"></span>
-                <label class="btn btn-secondary active">
-                    <input type="radio" name="options" id="celsius" autocomplete="off" checked>°C
-                </label>
-                <label class="btn btn-secondary">
-                    <input type="radio" name="options" id="fahrenheit" autocomplete="off">°F
-                </label>
+                Temperature stands at
+                <span id="temperature"></span>
+                <span class="not-active" id="temperature-unit" onclick="switchTempUnit()">°C</span>
+                and humidity at
+                <span id="humidity"></span>%.
             </div>
         </div>
         <div id="humidity-box"></div>
         <div id="wind-speed-box"></div>
     </div>
-    Designed with jQuery, AJAX.
+    Designed by user883311 with jQuery, AJAX.
+    <div>
+        <a href="https://github.com/user883311">
+            <i class="fab fa-github"></i>
+        </a>
+    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="script.js"></script>

@@ -1,110 +1,20 @@
-// var lon, lat;
-// $(document).ready(function () {
-//     navigator.geolocation.getCurrentPosition(function (location) {
-//         lon = location.coords.longitude;
-//         lat = location.coords.latitude;
-//         console.log(lon, lat);
-//         getWeather(lon, lat);
-//     });
-// })
+// Check if browser supports W3C Geolocation API
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(successFunction, errorFunction);
+}
 
-//Check if browser supports W3C Geolocation API
-// if (navigator.geolocation) {
-//     navigator.geolocation.getCurrentPosition(successFunction, errorFunction);
-// }
-// //Get latitude and longitude;
-// function successFunction(position) {
-//     var lat = position.coords.latitude;
-//     var long = position.coords.longitude;
-//     console.log(lat, long);
-//     getWeather(lat, long);
-// }
+//Get latitude and longitude;
+function successFunction(position) {
+    var lat = position.coords.latitude;
+    var long = position.coords.longitude;
+    // console.log(lat, long);
+    var url = `https://fcc-weather-api.glitch.me/api/current?lon=${long}&lat=${lat}`;
+    makeCorsRequest(url, render);
+}
 
-// function errorFunction(error) {
-//     console.log(error);
-// }
-
-// function getWeather(lon, lat) {
-//     // https://openweathermap.org/current
-//     let api = new XMLHttpRequest();
-//     // let APIKEY = "f13e33dc5e96b1a4c9fc0948f9095d1a"
-//     api.open("GET", `http://gd.geobytes.com/GetCityDetails`);
-//     // api.setRequestHeader(
-//     //     "Accept", "application/json",
-//     //     "Content-Type", "application/x-www-form-urlencoded"
-//     // )
-//     api.send();
-//     api.onreadystatechange = function () {
-//         if (this.readyState == 4 && this.status == 200) {
-//             console.log(this);
-//             var data = JSON.parse(this.response);
-//             console.log(data);
-//         }
-//     }
-// }
-
-
-
-// function getWeather(lon, lat) {
-//     var weatherAPI = "https://fcc-weather-api.glitch.me/";
-//     weatherAPI += "/api/current?lon=" + lon;
-//     weatherAPI += "&lat=" + lat;
-//     var JSONcity, JSONcountryCode, JSONicon;
-//     var JSONdata, JSONweatherDescription, JSONtemperature, JSONhumidity, JSONwindspeed;
-//     $.ajax({
-//         type: "GET",
-//         url: weatherAPI,
-//         success: function (data) {
-//             //console.log(data);
-//             JSONdata = data;
-//             document.getElementById("location-box").innerHTML = data.name + ", " + data.sys.country;
-//             JSONicon = data.weather[0].icon;
-//             //window.open(weatherAPI);
-//             document.getElementById("icon-box").innerHTML = "<img src='" + JSONicon + "' alt='[an API weather image]'>";
-//             document.getElementById("weather-description-box").innerHTML = data.weather[0].description;
-//             document.getElementById("temperature-box").innerHTML = Math.round(data.main.temp);
-//             document.getElementById("humidity-box").innerHTML = data.main.humidity + " % humidity";
-//             document.getElementById("wind-speed-box").innerHTML = "Wind speed: " + data.wind.speed + " km/h";
-//         }
-//     });
-// };
-
-
-// $(document).ready(function () {
-//     $("#fahrenheit").click(function () {
-//         document.getElementById("temperature-box").innerHTML = Math.round(document.getElementById("temperature-box").innerHTML * 9 / 5 + 32);
-//     });
-// });
-// $(document).ready(function () {
-//     $("#celsius").click(function () {
-//         document.getElementById("temperature-box").innerHTML = Math.round((document.getElementById("temperature-box").innerHTML - 32) * 5 / 9);
-//     });
-// });
-
-
-
-// getWeather(1,130);
-
-// function getWeather(lon, lat) {
-//     // https://darksky.net/
-//     let api = new XMLHttpRequest();
-//     let APIKEY = "020ccb1cb7edea9f2d828997f73b49fd";
-//     api.open("GET", `https://api.darksky.net/forecast/020ccb1cb7edea9f2d828997f73b49fd/1,130`);
-//     api.setRequestHeader(
-//         "Accept", "application/json",
-//         "crossDomain", true
-//     )
-//     api.send();
-//     api.onreadystatechange = function () {
-//         if (this.readyState == 4 && this.status == 200) {
-//             console.log(this);
-//             var data = JSON.parse(this.response);
-//             console.log(data);
-//         }
-//     }
-// }
-
-
+function errorFunction(error) {
+    console.log(error);
+}
 
 // Create the XHR object.
 function createCORSRequest(method, url) {
@@ -120,12 +30,12 @@ function createCORSRequest(method, url) {
         // CORS not supported.
         xhr = null;
     }
-    console.log(xhr);
+    // console.log(xhr);
     return xhr;
 }
 
 // Make the actual CORS request.
-function makeCorsRequest() {
+function makeCorsRequest(url, callback) {
     // This is a sample server that supports CORS.
     var xhr = createCORSRequest('GET', url);
 
@@ -136,8 +46,9 @@ function makeCorsRequest() {
 
     // Response handlers.
     xhr.onload = function () {
-        var text = xhr.responseText;
-        console.log(text);
+        var res = JSON.parse(xhr.responseText);
+        // console.log(res)
+        callback(res);
     };
 
     xhr.onerror = function () {
@@ -146,13 +57,32 @@ function makeCorsRequest() {
     xhr.setRequestHeader(
         "Accept", "application/json",
         "Content-Type", "application/x-www-form-urlencoded",
-        // "X-Mashape-Key", "U4b3CaPdKOmsh1KhijHacuQlJlcpp13WPT0jsn4RERXGyE1PXv",
-        // "X-Mashape-Host", "weatherbit-v1-mashape.p.mashape.com"
     )
     xhr.send();
 }
 
-var url = "https://api.darksky.net/forecast/020ccb1cb7edea9f2d828997f73b49fd/37.8267,-122.4233";
-makeCorsRequest();
+function updateTextToHtmlId(idString, textString) {
+    document.getElementById(idString).textContent = textString;
+}
 
-// document.getElementById("test").textContent = this;
+function render(jsonObj) {
+    document.getElementById("location-box").textContent = jsonObj.name;
+    document.getElementById("icon-box").src = jsonObj.weather[0].icon;
+    document.getElementById("weather-description-box").src = jsonObj.weather[0].description;
+    document.getElementById("temperature").textContent = Math.round(jsonObj.main.temp).toString();
+    document.getElementById("humidity").textContent = jsonObj.main.humidity;
+    document.getElementById("temperature-unit").classList.remove("not-active");
+}
+
+function switchTempUnit() {
+    let initialTemp = document.getElementById("temperature").textContent;
+    initialTemp = parseInt(initialTemp);
+    let currentUnit = document.getElementById("temperature-unit").textContent;
+    if (/°C/.test(currentUnit)) {
+        document.getElementById("temperature-unit").textContent = "°F";
+        document.getElementById("temperature").textContent = Math.round(initialTemp * 9 / 5 + 32);
+    } else {
+        document.getElementById("temperature-unit").textContent = "°C";
+        document.getElementById("temperature").textContent = Math.round((initialTemp - 32) * 5 / 9);
+    }
+}

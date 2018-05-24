@@ -106,48 +106,53 @@
 
 
 
-// Create the XHR object.
-function createCORSRequest(method, url) {
-    var xhr = new XMLHttpRequest();
-    if ("withCredentials" in xhr) {
-        // XHR for Chrome/Firefox/Opera/Safari.
-        xhr.open(method, url, true);
-    } else if (typeof XDomainRequest != "undefined") {
-        // XDomainRequest for IE.
-        xhr = new XDomainRequest();
-        xhr.open(method, url);
-    } else {
-        // CORS not supported.
-        xhr = null;
-    }
-    console.log(xhr);
-    return xhr;
-}
-
-// Make the actual CORS request.
-function makeCorsRequest() {
-    // This is a sample server that supports CORS.
-    var url = 'https://api.darksky.net/forecast/020ccb1cb7edea9f2d828997f73b49fd/42.3601,-71.0589';
-    var xhr = createCORSRequest('GET', url);
-    
-    if (!xhr) {
-        alert('CORS not supported');
-        return;
+    // Create the XHR object.
+    function createCORSRequest(method, url) {
+        var xhr = new XMLHttpRequest();
+        if ("withCredentials" in xhr) {
+            // XHR for Chrome/Firefox/Opera/Safari.
+            xhr.open(method, url, true);
+        } else if (typeof XDomainRequest != "undefined") {
+            // XDomainRequest for IE.
+            xhr = new XDomainRequest();
+            xhr.open(method, url);
+        } else {
+            // CORS not supported.
+            xhr = null;
+        }
+        console.log(xhr);
+        return xhr;
     }
 
-    // Response handlers.
-    xhr.onload = function () {
-        var text = xhr.responseText;
-        console.log(text);
-        // var title = getTitle(text);
-        // alert('Response from CORS request to ' + url + ': ' + title);
-    };
+    // Make the actual CORS request.
+    function makeCorsRequest() {
+        // This is a sample server that supports CORS.
+        var xhr = createCORSRequest('GET', url);
 
-    xhr.onerror = function () {
-        alert('Woops, there was an error making the request.');
-    };
+        if (!xhr) {
+            console.log('CORS not supported');
+            return;
+        }
 
-    xhr.send();
-}
+        // Response handlers.
+        xhr.onload = function () {
+            var text = xhr.responseText;
+            console.log(text);
+        };
 
-makeCorsRequest();
+        xhr.onerror = function () {
+            console.log('Woops, there was an error making the request.');
+        };
+        xhr.setRequestHeader(
+            "Accept", "application/json",
+            "Content-Type", "application/x-www-form-urlencoded",
+            // "X-Mashape-Key", "U4b3CaPdKOmsh1KhijHacuQlJlcpp13WPT0jsn4RERXGyE1PXv",
+            // "X-Mashape-Host", "weatherbit-v1-mashape.p.mashape.com"
+        )
+        xhr.send();
+    }
+
+    var url = "https://api.darksky.net/forecast/020ccb1cb7edea9f2d828997f73b49fd/37.8267,-122.4233";
+    makeCorsRequest();
+
+    // document.getElementById("test").textContent = this;
